@@ -4,7 +4,7 @@ import { updateCart } from '../utils/cartUtils';
 //if anything is in local storage, put in initial state even after refreshing
 const initialState = localStorage.getItem('cart')
     ? JSON.parse(localStorage.getItem('cart'))
-    : { cartItems: [] };
+    : { cartItems: [], shippingAddress: {}, paymentMethod: 'PayPal' };
 
 
 const cartSlice = createSlice({
@@ -36,10 +36,24 @@ const cartSlice = createSlice({
 
             return updateCart(state);
 
-        }
+        },
+        saveShippingAddress: (state, action) => {
+            state.shippingAddress = action.payload;
+            return updateCart(state);
+        },
+        savePaymentMethod: (state, action) => {
+            state.paymentMethod = action.payload;
+            return updateCart(state);
+        },
+        clearCartItems: (state, action) => {
+            state.cartItems = [];
+            localStorage.setItem('cart', JSON.stringify(state));
+        },
+
     },
 });
 
-export const { addToCart, removeFromCart } = cartSlice.actions;
+//we are using createSlice not createApi here
+export const { addToCart, removeFromCart, saveShippingAddress, savePaymentMethod, clearCartItems } = cartSlice.actions;
 
 export default cartSlice.reducer;
