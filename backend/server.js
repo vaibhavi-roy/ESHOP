@@ -26,9 +26,6 @@ app.get('/api/config/paypal', (req, res) =>
     res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
 );
 
-app.get('/', (req, res) => {
-    res.send('API is running...');
-});
 
 const __dirname = path.resolve(); //Set __dirname to current working directory
 app.use('/uploads', express.static(path.join(__dirname, './uploads/'))); //pass location of folder
